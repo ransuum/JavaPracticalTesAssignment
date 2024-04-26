@@ -119,6 +119,7 @@ class UserControllerTest {
         String newBirthDate = LocalDate.now().minusYears(25).toString();
         String newAddress = "New Address";
         String newPhone = "+9876543210";
+        String password = new BCryptPasswordEncoder().encode("ez");
 
         Users updatedUser = Users.builder()
                 .id(userId)
@@ -142,11 +143,11 @@ class UserControllerTest {
                 .role(updatedUser.getRole())
                 .build();
 
-        when(userService.updateUser(userId, newEmail, newFirstName, newLastName, newBirthDate, newAddress, newPhone))
+        when(userService.updateUser(userId, newEmail, newFirstName, newLastName, newBirthDate, newAddress, newPhone, password))
                 .thenReturn(updatedUser);
         when(userMapper.toDto(updatedUser)).thenReturn(updatedUserDto);
 
-        ResponseEntity<UserDto> response = userController.updateUser(userId, newEmail, newFirstName, newLastName, newBirthDate, newAddress, newPhone);
+        ResponseEntity<UserDto> response = userController.updateUser(userId, newEmail, newFirstName, newLastName, newBirthDate, newAddress, newPhone, password);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(updatedUserDto, response.getBody());

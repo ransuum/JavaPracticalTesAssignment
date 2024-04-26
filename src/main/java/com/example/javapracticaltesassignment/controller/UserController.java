@@ -57,8 +57,8 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@RequestParam UUID id, @RequestParam(required = false) String email,
                                               @RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName,
                                               @RequestParam(required = false) String birthDate, @RequestParam(required = false) String address,
-                                              @RequestParam(required = false) String phone) {
-        return new ResponseEntity<>(userMapper.toDto(service.updateUser(id, email, firstName, lastName, birthDate, address, phone)), HttpStatus.OK);
+                                              @RequestParam(required = false) String phone, @RequestParam(required = false) String password) {
+        return new ResponseEntity<>(userMapper.toDto(service.updateUser(id, email, firstName, lastName, birthDate, address, phone, password)), HttpStatus.OK);
     }
 
     @GetMapping("/after/{date}")

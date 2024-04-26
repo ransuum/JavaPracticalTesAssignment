@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Users updateUser(UUID id, String email, String firstName, String lastName, String birthDate,
-                           String address, String phone) {
+                           String address, String phone, String password) {
         Users user = userRepo.findById(id).orElseThrow(() -> new NotFoundException("user with id:" + id + " not found"));
         if (email != null && !email.equals(user.getEmail())) user.setEmail(email);
         if (firstName != null && !firstName.equals(user.getFirstName())) user.setFirstName(firstName);
@@ -67,11 +67,12 @@ public class UserService implements UserDetailsService {
         if (birthDate != null && !LocalDate.parse(birthDate, formatter).equals(user.getBirthDate())) {
             LocalDate localDate = LocalDate.parse(birthDate, formatter);
             if ((LocalDate.now().getYear() - localDate.getYear()) < age)
-                throw new LessThanMinAgeException((LocalDateTime.now().getYear() - user.getBirthDate().getYear()) + "less than 18 years");
+                throw new LessThanMinAgeException((LocalDate.now().getYear() - localDate.getYear()) + "less than 18 years");
             user.setBirthDate(localDate);
         }
         if (address != null && !address.equals(user.getAddress())) user.setAddress(address);
         if (phone != null && !phone.equals(user.getPhone())) user.setPhone(phone);
+        if (password != null) user.setPassword(new BCryptPasswordEncoder().encode(password));
         return userRepo.save(user);
     }
     public void deleteUser(UUID id){

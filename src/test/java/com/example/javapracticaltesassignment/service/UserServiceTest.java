@@ -66,7 +66,7 @@ class UserServiceTest {
         when(userRepo.findById(any(UUID.class))).thenReturn(Optional.of(testUser));
         when(userRepo.save(any(Users.class))).thenReturn(testUser);
 
-        Users updatedUser = userService.updateUser(testUser.getId(), "newemail@example.com", "NewFirstName", "NewLastName", "2003-11-03", "New Address", "+9876543210");
+        Users updatedUser = userService.updateUser(testUser.getId(), "newemail@example.com", "NewFirstName", "NewLastName", "2003-11-03", "New Address", "+9876543210", new BCryptPasswordEncoder().encode("1234"));
 
         assertNotNull(updatedUser);
         assertEquals("newemail@example.com", updatedUser.getEmail());
