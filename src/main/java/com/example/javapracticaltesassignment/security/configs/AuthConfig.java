@@ -29,8 +29,8 @@ public class AuthConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/*").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/user/*").hasRole("ADMIN"))
+                        .requestMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN"))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
